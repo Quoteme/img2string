@@ -1,0 +1,13 @@
+/*#processing_canvas, #original_canvas{
+	width: 300px;
+}*/
+
+#processing_canvas{
+	filter: grayscale();
+}
+
+.overview{
+	height: 800px;
+	width: 400px;
+	overflow: scroll;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>img2string</title>
+		<link rel="stylesheet" href="master.css">
+	</head>
+	<body>
+		<div id="settings">
+			<h2>Settings</h2>
+			<table>
+				<tr>
+					<td>image:</td>
+					<td><input type="file" id="fileItem" onchange="onFileSelected(event)"></td>
+				</tr>
+				<tr>
+					<td>number of nails:</td>
+					<td><input type="number" id="nails" value="80"> (warning: more nails = better output+way heavier on your computer)</td>
+				</tr>
+				<tr>
+					<td>radius:<br>(0 = none;<br>1 = as big as it can be;<br>0.5 = half the image)</td>
+					<td><input type="number" id="radius" value="1"></td>
+				</tr>
+				<tr>
+					<td>string transparency</td>
+					<td><input type="number" id="transparency" value="0.3"></td>
+				</tr>
+				<tr>
+					<td>starting nail</td>
+					<td><input type="number" id="startingNail" value="0"></td>
+				</tr>
+				<tr>
+					<td><button type="button" onclick="generate();loop();">generate</button></td>
+					<td><button type="button" onclick="execute = !execute;">stop/continue</button></td>
+				</tr>
+			</table>
+		</div>
+		<div id="processing">
+			<h2>Processing</h2>
+			<canvas id="original_canvas" width="300" height="300"></canvas>
+			<canvas id="processing_canvas" width="300" height="300"></canvas>
+			<canvas id="finish_canvas" width="300" height="300" style="background:black"></canvas>
+		</div>
+		<div id="output">
+			<h2>Output</h2>
+			<button type="button" onclick="instrucions();">show instructions</button>
+			<div class="overview">
+				<table id="instructions">
+
+				</table>
+			</div>
+		</div>
+		<div id="credit">
+			<h2>Credits</h2>
+			<p>inspired by <a href="https://youtu.be/-S_l8GGxOhU">GoldPlatedGoof's video about "Danny Devito Drawn With String"</a><br>
+				Programmed by Luca Leon Happel (2017)</p>
+		</div>
+		<script src="main.js" charset="utf-8"></script>
+	</body>
+</html>
