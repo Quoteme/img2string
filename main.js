@@ -5,7 +5,7 @@ pctx = pc.getContext("2d");
 fc = document.getElementById('finish_canvas')
 fctx = fc.getContext("2d");
 
-var image, nails, radius, opacity, center, logbook, currentNail, update;
+var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile;
 var table = document.getElementById("instructions");
 var execute = false;
 function updateValues() {
@@ -75,6 +75,15 @@ function onFileSelected(event) {
 
 	reader.readAsDataURL(selectedFile);
 }
+function onJSONselected(event) {
+	var selectedFile = event.target.files[0];
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		jsonFile = JSON.parse(event.target.result);
+	};
+
+	reader.readAsText(selectedFile);
+}
 function findDarkest(start){
 	darkest = [Infinity, 0];
 	for (var i = 0; i < nails.length; i++) {
@@ -98,7 +107,7 @@ function fillLine(p,q){
 function whitePixel(x,y) {
 	pctx.fillStyle= "rgba(255, 255, 255, "+opacity+")";
 	pctx.fillRect(x,y,1,1);
-	fctx.fillStyle= "rgba(255, 255, 255, "+opacity+")";
+	fctx.fillStyle= "rgba(0, 0, 0, "+opacity+")";
 	fctx.fillRect(x,y,1,1);
 }
 function resetPCTX() {
@@ -109,6 +118,42 @@ function resetPCTX() {
 		pctx.clearRect(0,0,pc.width, pc.height);
 		pctx.drawImage(temp,0,0);
 	}
+}
+function loadJSON() {
+	image = imageInput = {
+		"height": jsonFile.settings.height,
+		"width": jsonFile.settings.width
+	}
+	document.getElementById("nails").value = jsonFile.settings.nails;
+	updateValues();
+	fctx.fillStyle= "#FFFFFF";
+	fctx.fillRect(0,0,jsonFile.settings.width,jsonFile.settings.height);
+	fctx.fillStyle= "#000000";
+	function draw(i) {
+		console.log(i);
+		fillLine(nails[jsonFile.data[i][0]], nails[jsonFile.data[i][1]])
+		i++;
+		if (i < jsonFile.data.length) {
+			requestAnimationFrame(function() {
+				draw(i)
+			})
+		}
+	}
+	draw(0);
+}
+function convertJSON() {
+	var temp = new Object();
+	temp.settings = {
+		"width": image.width,
+		"height": image.height,
+		"nails": nails.length
+	}
+	temp.data = logbook;
+	temp = JSON.stringify(temp);
+	return temp;
+}
+function saveJSON() {
+	download(convertJSON(), "unknown.json", "json");
 }
 function step(callback) {
 	// find the darkest path, log it and paint it over in white
@@ -136,6 +181,8 @@ function generate() {
 	drawBG(octx);
 	drawBG(pctx);
 	drawNails();
+	fctx.fillStyle= "#FFFFFF";
+	fctx.fillRect(0,0,image.width,image.height);
 }
 
 function addInstruction(p,q) {
@@ -201,4 +248,21 @@ function bresenrahm (p, q) {
 	}
 	// Return the result
 	return arr;
+}
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
 }
