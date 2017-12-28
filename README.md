@@ -12,6 +12,7 @@ El Greco's Jesus:
 ## Showcase
 This is a showcase of how the program works with a relatively small amount of nails (80) with a picture of me.
 ![showcase of how the program works](https://i.imgur.com/IZCMClp.gif "Showcase of how the program works")
+another example with black on white output not white on black
 ![showcase of an image generating](https://i.imgur.com/enGwauH.gif "showcase of an image generating")
 
 ## Notes
