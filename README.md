@@ -12,6 +12,7 @@ El Greco's Jesus:
 ## Showcase
 This is a showcase of how the program works with a relatively small amount of nails (80) with a picture of me.
 ![showcase of how the program works](https://i.imgur.com/IZCMClp.gif "Showcase of how the program works")
+![showcase of an image generating](https://i.imgur.com/enGwauH.gif "showcase of an image generating")
 
 ## Notes
 It is vital that you know that this program can cause overheating in some computers.
