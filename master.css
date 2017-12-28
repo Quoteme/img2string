@@ -5,7 +5,9 @@
 #processing_canvas{
 	filter: grayscale();
 }
-
+#finish_canvas{
+	filter: invert();
+}
 .overview{
 	height: 800px;
 	width: 400px;
