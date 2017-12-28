@@ -1,5 +1,8 @@
 # img2string
 
+## TRY IT OUT!
+[online version](http://htmlpreview.github.io/?https://github.com/Quoteme/img2string/master/index.html)
+
 ### Introduction
 This project has been a collaborative work to recreate the algorythm used by Petros Vrellis in his recreation of
 El Greco's Jesus:
