@@ -5,35 +5,52 @@ pctx = pc.getContext("2d");
 fc = document.getElementById('finish_canvas')
 fctx = fc.getContext("2d");
 
-var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile;
+var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile, stringLimit, showStringNumber;
 var table = document.getElementById("instructions");
-var execute = false;
+// stop/resume execution
+	var execute = false;
 function updateValues() {
-	clearInterval(update);
-	logbook = [];
-	radius = (Math.min(imageInput.height,imageInput.width)/2)*parseInt(document.getElementById("radius").value)-2;
-	currentNail = parseInt(document.getElementById("startingNail").value);
+	// stop the previous program from running
+		clearInterval(update);
+	// if a string limit is set, use this, or allow for the program to run indefinately
+		stringLimit = document.getElementById("useLimit").checked ? parseInt(document.getElementById("stringNumber").value) : Infinity;
+	// this variable stores all the points from where, to where the string goes on each step
+		logbook = [];
+	// the radius from where the nails start.
+	// 0 = all nails together at one point; 1 = edge of the image
+		radius = (Math.min(imageInput.height,imageInput.width)/2)*parseInt(document.getElementById("radius").value)-2;
+	// set the starting point for the program. This variable will change with each step the progam makes
+		currentNail = parseInt(document.getElementById("startingNail").value);
+	// center of the image, from where the nails will be centered from
 		center = {"x":image.width/2, "y":image.height/2};
+	// angle between each nail
 		angle = toRadians(360/parseInt(document.getElementById("nails").value));
-	nails = (function() {
-		var temp = [];
-		for (var i = 0; i < parseInt(document.getElementById("nails").value); i++) {
-			temp[i] = {};
-			temp[i].x = center.x+Math.cos(i*angle)*radius;
-			temp[i].y = center.y+Math.sin(i*angle)*radius;
-		}
-		return temp;
-	})();
-	opacity = parseFloat(document.getElementById("transparency").value);
-	fc.width	= pc.width	= oc.width	= imageInput.width;
-	fc.height	= pc.height	= oc.height	= imageInput.height;
-	table.innerHTML = "";
+	// a list of all the nails with their respective position
+		nails = (function() {
+			var temp = [];
+			for (var i = 0; i < parseInt(document.getElementById("nails").value); i++) {
+				temp[i] = {};
+				temp[i].x = center.x+Math.cos(i*angle)*radius;
+				temp[i].y = center.y+Math.sin(i*angle)*radius;
+			}
+			return temp;
+		})();
+	// the opacity of the string determines how many times the string needs to pass a point of the canvas, in order to color it 100%
+		opacity = parseFloat(document.getElementById("transparency").value);
+	// choose to display a little number in the top left corner that says how many steps have been performed already
+		showStringNumber = document.getElementById("showStringNumber").checked;
+	// reset the dimensions of each canvas to fit it to the image
+		fc.width	= pc.width	= oc.width	= imageInput.width;
+		fc.height	= pc.height	= oc.height	= imageInput.height;
+	// reset the instruction output, which displays all the instructions at the end
+		table.innerHTML = "";
 }
 
 function drawBG(context) {
 	context.clearRect(0,0,oc.width, oc.height)
 	context.drawImage(imageInput,0,0);
 }
+// draw the nails in their respectivepositions
 function drawNails() {
 	var size = 10;
 	for (var i = 0; i < nails.length; i++) {
@@ -75,11 +92,12 @@ function onFileSelected(event) {
 
 	reader.readAsDataURL(selectedFile);
 }
-function onJSONselected(event) {
+function onJSONselected(event, callback) {
 	var selectedFile = event.target.files[0];
 	var reader = new FileReader();
 	reader.onload = function(event) {
 		jsonFile = JSON.parse(event.target.result);
+		callback();
 	};
 
 	reader.readAsText(selectedFile);
@@ -130,8 +148,9 @@ function loadJSON() {
 	fctx.fillRect(0,0,jsonFile.settings.width,jsonFile.settings.height);
 	fctx.fillStyle= "#000000";
 	function draw(i) {
-		console.log(i);
-		fillLine(nails[jsonFile.data[i][0]], nails[jsonFile.data[i][1]])
+		updateProgress(i,jsonFile.data.length);
+		fillLine(nails[jsonFile.data[i][0]], nails[jsonFile.data[i][1]]);
+		addInstruction(jsonFile.data[i][0], jsonFile.data[i][1]);
 		i++;
 		if (i < jsonFile.data.length) {
 			requestAnimationFrame(function() {
@@ -155,6 +174,13 @@ function convertJSON() {
 function saveJSON() {
 	download(convertJSON(), "unknown.json", "json");
 }
+function stopOrResume() {
+	execute = !execute;
+	document.getElementById("resumeButton").innerHTML = execute ? "stop" : "continue";
+}
+function updateProgress(x,y) {
+	document.getElementById("progress").innerHTML = x+"/"+y;
+}
 function step(callback) {
 	// find the darkest path, log it and paint it over in white
 	path = findDarkest(currentNail);
@@ -166,9 +192,21 @@ function step(callback) {
 	callback();
 }
 function loop() {
+	// only draw the next step if the button to execute was pressed
 	if (execute) {
 		setTimeout(function () {
-			step(loop);
+			// only draw the next string if the stringLimit is not too low
+			if (stringLimit > 0) {
+				step(function() {
+					loop();
+					// reduce the stringLimit by one, because a string has been drawn
+					stringLimit--;
+					// add a string counter to the top left of the image
+					if (showStringNumber) {
+						updateProgress(currentNail,stringLimit+currentNail);
+					}
+				});
+			}
 		}, 1);
 	}else {
 		setTimeout(function () {

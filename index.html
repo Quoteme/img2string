@@ -14,8 +14,12 @@
 					<td><input type="file" id="fileItem" onchange="onFileSelected(event)"></td>
 				</tr>
 				<tr>
+					<td title="load a json file which has been saved using this program that stores all the instructions that have been calculated.">load external .json file</td>
+					<td><input type="file" onchange="onJSONselected(event, loadJSON)" id="filepicker" style="display: none"><button type="button" onclick="document.getElementById('filepicker').click()">load .json</button><button type="button" onclick="saveJSON()">save .json</button></td>
+				</tr>
+				<tr>
 					<td>number of nails:</td>
-					<td><input type="number" id="nails" value="80"> (warning: more nails = better output+way heavier on your computer)</td>
+					<td><input type="number" id="nails" value="160"></td>
 				</tr>
 				<tr>
 					<td>radius:<br>(0 = none;<br>1 = as big as it can be;<br>0.5 = half the image)</td>
@@ -30,24 +34,28 @@
 					<td><input type="number" id="startingNail" value="0"></td>
 				</tr>
 				<tr>
-					<td><button type="button" onclick="generate();loop();">generate</button></td>
-					<td><button type="button" onclick="execute = !execute;">stop/continue</button></td>
+					<td>string limit <input type="checkbox" id="useLimit" checked></td>
+					<td><input type="number" id="stringNumber" value="2200"></td>
 				</tr>
 				<tr>
-					<td><input type="file" onchange="onJSONselected(event)"><button type="button" onclick="loadJSON();">load .json</button></td>
-					<td><button type="button" onclick="">save .json</button></td>
+					<td>string number counter:</td>
+					<td><input type="checkbox" id="showStringNumber" checked></td>
+				</tr>
+				<tr>
+					<td><button type="button" onclick="generate();loop();">generate</button></td>
+					<td><button type="button" onclick="stopOrResume();" id="resumeButton">paused</button></td>
 				</tr>
 			</table>
 		</div>
 		<div id="processing">
 			<h2>Processing</h2>
+			<span>progress:<span id="progress"></span></span><br>
 			<canvas id="original_canvas" width="300" height="300"></canvas>
 			<canvas id="processing_canvas" width="300" height="300"></canvas>
 			<canvas id="finish_canvas" width="300" height="300"></canvas>
 		</div>
 		<div id="output">
 			<h2>Output</h2>
-			<button type="button" onclick="instrucions();">show instructions</button>
 			<div class="overview">
 				<table id="instructions">
 
@@ -60,5 +68,6 @@
 				Programmed by Luca Leon Happel (2017)</p>
 		</div>
 		<script src="main.js" charset="utf-8"></script>
+		<a href="https://github.com/Quoteme/img2string"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
 	</body>
 </html>
