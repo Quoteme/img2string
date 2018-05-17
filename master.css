@@ -1,12 +1,84 @@
-/*#processing_canvas, #original_canvas{
-	width: 300px;
-}*/
+body{
+	margin: 0px;
+	background: #222;
+	color: #ccc;
+}
 
+h2{
+	margin-top: -0px;
+	font-size: 40px;
+	font-family: 'Permanent Marker', cursive;
+	background-color: #161616;
+	color: #eef;
+	padding: 5px;
+	text-align: center;
+	transition: 0.25s;
+}
 #processing_canvas{
 	filter: grayscale();
 }
-.overview{
-	height: 800px;
-	width: 400px;
-	overflow: scroll;
+#output,#credit,#processing,#settings{
+	float: left;
+	background: #222
+}
+#output{
+	width: 200px;
+}
+#output h2:hover{
+	color: rgb(250, 105, 59);
+	transition: 0.25s;
+}
+#credit
+{
+	width: calc( 50% - 200px);
+}
+#credit h2:hover{
+	color: rgb(126, 250, 59);
+	transition: 0.25s;
+}
+#settings{
+	width: 50%;
+}
+#settings h2:hover{
+	color: rgb(59, 135, 250);
+	transition: 0.25s;
+}
+#processing{
+	width: 100%;
+}
+#processing h2:hover{
+	color: rgb(250, 231, 59);
+	transition: 0.25s;
+}
+canvas {
+    width: 33%;
+}
+.overview {
+    height: 300px;
+    overflow: scroll;
+}
+#settingsTable{
+	margin-left: 30px;
+}
+
+.programmer{
+	text-decoration: underline;
+	text-shadow: 1px 1px
+}
+.tester{
+	text-decoration: underline;
+}
+.date{
+
+}
+a{
+	color: rgb(59, 135, 250);
+}
+.progressStuff{
+	text-align: center;
+	display: block;
+}
+#progressBar{
+	min-width: 160px;
+	width: 33%;
 }

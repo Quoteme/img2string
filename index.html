@@ -4,11 +4,12 @@
 		<meta charset="utf-8">
 		<title>img2string</title>
 		<link rel="stylesheet" href="master.css">
+		<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 	</head>
 	<body>
 		<div id="settings">
 			<h2>Settings</h2>
-			<table>
+			<table id="settingsTable">
 				<tr>
 					<td>image:</td>
 					<td><input type="file" id="fileItem" onchange="onFileSelected(event)"></td>
@@ -22,8 +23,8 @@
 					<td><input type="number" id="nails" value="160"></td>
 				</tr>
 				<tr>
-					<td>radius:<br>(0 = none;<br>1 = as big as it can be;<br>0.5 = half the image)</td>
-					<td><input type="number" id="radius" value="1"></td>
+					<td>radius:</td>
+					<td><input type="range" id="radius" value="1" min="0" max="1" step="0.1" onchange="document.getElementById('radiusIndicator').innerHTML = this.value"><span id="radiusIndicator">1</span></td>
 				</tr>
 				<tr>
 					<td>string transparency</td>
@@ -47,12 +48,17 @@
 				</tr>
 			</table>
 		</div>
-		<div id="processing">
-			<h2>Processing</h2>
-			<span>progress:<span id="progress"></span></span><br>
-			<canvas id="original_canvas" width="300" height="300"></canvas>
-			<canvas id="processing_canvas" width="300" height="300"></canvas>
-			<canvas id="finish_canvas" width="300" height="300"></canvas>
+		<div id="credit">
+			<h2>Credits</h2>
+			<p>Inspired by: <a href="https://youtu.be/-S_l8GGxOhU">GoldPlatedGoof</a>
+				<br>
+				and his video:<br><iframe src="https://www.youtube.com/embed/-S_l8GGxOhU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				<br>
+				<br>
+
+				Programmed by: <span class="programmer">Luca Leon Happel</span> in <span class="date">(2017)</span>
+				<br>
+				Thanks to: <span class="tester">Stefan Schulz</span> <span class="tester">Aleyna Yaşar Yıldız</span></p>
 		</div>
 		<div id="output">
 			<h2>Output</h2>
@@ -62,12 +68,14 @@
 				</table>
 			</div>
 		</div>
-		<div id="credit">
-			<h2>Credits</h2>
-			<p>inspired by <a href="https://youtu.be/-S_l8GGxOhU">GoldPlatedGoof's video about "Danny Devito Drawn With String"</a><br>
-				Programmed by Luca Leon Happel (2017)</p>
+		<div id="processing">
+			<h2>Processing</h2>
+			<span class="progressStuff">progress: <progress id="progressBar"value="0" max="1"></progress> <span id="progress">0/0</span></span><br>
+			<canvas id="original_canvas" width="300" height="300"></canvas>
+			<canvas id="processing_canvas" width="300" height="300"></canvas>
+			<canvas id="finish_canvas" width="300" height="300"></canvas>
 		</div>
 		<script src="main.js" charset="utf-8"></script>
-		<a href="https://github.com/Quoteme/img2string"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+		<a href="https://github.com/Quoteme/img2string"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
 	</body>
 </html>

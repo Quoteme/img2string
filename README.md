@@ -10,6 +10,8 @@ El Greco's Jesus:
 ![image of El Grecos "Jesus" remade](http://cdn.trendhunterstatic.com/thumbs/petros-vrellis.jpeg "El Grecos 'Jesus' remade")
 
 ## Showcase
+The new updated UI:
+![showcase of the new UI](https://i.imgur.com/dBf3sO3.png "Showcase of the new UI")
 This is a showcase of how the program works with a relatively small amount of nails (80) with a picture of me.
 ![showcase of how the program works](https://i.imgur.com/IZCMClp.gif "Showcase of how the program works")
 another example with black on white output not white on black
@@ -29,6 +31,4 @@ The program might be very slow for the first few nails. After some time it will 
 * programming: Luca Leon Happel
 
 
-	(2017)
-
-<!-- <a href="http://www.youtube.com/watch?feature=player_embedded&v=-S_l8GGxOhU" target="_blank"><img src="http://img.youtube.com/vi/-S_l8GGxOhU/0.jpg" alt="a link to the video I got inspired by" width="240" height="180" border="10" /></a> -->
+	created: 28.12.2017 last updated: 18.05.2018

@@ -5,7 +5,7 @@ pctx = pc.getContext("2d");
 fc = document.getElementById('finish_canvas')
 fctx = fc.getContext("2d");
 
-var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile, stringLimit, showStringNumber;
+var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile, stringLimit, showStringNumber, currentString;
 var table = document.getElementById("instructions");
 // stop/resume execution
 	var execute = false;
@@ -14,6 +14,8 @@ function updateValues() {
 		clearInterval(update);
 	// if a string limit is set, use this, or allow for the program to run indefinately
 		stringLimit = document.getElementById("useLimit").checked ? parseInt(document.getElementById("stringNumber").value) : Infinity;
+	// increases every time a string is drawn
+		currentString = 0;
 	// this variable stores all the points from where, to where the string goes on each step
 		logbook = [];
 	// the radius from where the nails start.
@@ -153,12 +155,21 @@ function loadJSON() {
 		addInstruction(jsonFile.data[i][0], jsonFile.data[i][1]);
 		i++;
 		if (i < jsonFile.data.length) {
-			requestAnimationFrame(function() {
-				draw(i)
-			})
+			buffer(i);
 		}
 	}
 	draw(0);
+	function buffer(i) {
+		if (execute) {
+			requestAnimationFrame(function() {
+				draw(i)
+			})
+		}else {
+			requestAnimationFrame(function() {
+				buffer(i)
+			})
+		}
+	}
 }
 function convertJSON() {
 	var temp = new Object();
@@ -180,6 +191,8 @@ function stopOrResume() {
 }
 function updateProgress(x,y) {
 	document.getElementById("progress").innerHTML = x+"/"+y;
+	document.getElementById("progressBar").value = x;
+	document.getElementById("progressBar").max = y;
 }
 function step(callback) {
 	// find the darkest path, log it and paint it over in white
@@ -201,9 +214,10 @@ function loop() {
 					loop();
 					// reduce the stringLimit by one, because a string has been drawn
 					stringLimit--;
+					currentString++;
 					// add a string counter to the top left of the image
 					if (showStringNumber) {
-						updateProgress(currentNail,stringLimit+currentNail);
+						updateProgress(currentString,stringLimit+currentString);
 					}
 				});
 			}
