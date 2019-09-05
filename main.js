@@ -5,7 +5,7 @@ pctx = pc.getContext("2d");
 fc = document.getElementById('finish_canvas')
 fctx = fc.getContext("2d");
 
-var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile, stringLimit, showStringNumber, currentString;
+var image, imageInput, nails, radius, opacity, center, logbook, currentNail, update, jsonFile, stringLimit, showStringNumber, currentString, stringColor;
 var table = document.getElementById("instructions");
 // stop/resume execution
 	var execute = false;
@@ -26,7 +26,7 @@ function updateValues() {
 	// center of the image, from where the nails will be centered from
 		center = {"x":image.width/2, "y":image.height/2};
 	// angle between each nail
-		angle = toRadians(360/parseInt(document.getElementById("nails").value));
+		angle = (Math.PI/180)*(360/parseInt(document.getElementById("nails").value));
 	// a list of all the nails with their respective position
 		nails = (function() {
 			var temp = [];
@@ -41,11 +41,16 @@ function updateValues() {
 		opacity = parseFloat(document.getElementById("transparency").value);
 	// choose to display a little number in the top left corner that says how many steps have been performed already
 		showStringNumber = document.getElementById("showStringNumber").checked;
+	// update string color
+		stringColor = hexToRgb(document.getElementById("stringColor").value);
 	// reset the dimensions of each canvas to fit it to the image
 		fc.width	= pc.width	= oc.width	= imageInput.width;
 		fc.height	= pc.height	= oc.height	= imageInput.height;
 	// reset the instruction output, which displays all the instructions at the end
 		table.innerHTML = "";
+	// update canvas bg
+//	fctx.fillStyle= `rgb(${Math.abs(stringColor[0]-255)}, ${Math.abs(stringColor[1]-255)}, ${Math.abs(stringColor[2]-255)})`;
+//	fctx.fillRect(0,0,fc.width,fc.height);
 }
 
 function drawBG(context) {
@@ -64,7 +69,7 @@ function drawNails() {
 }
 function luma(x,y) {
 	var pixel = pctx.getImageData(x,y,2,2).data;
-	return toLuma(pixel[0],pixel[1],pixel[2]);
+	return toLuma(pixel[0]-stringColor[0],pixel[1]-stringColor[0],pixel[2]-stringColor[0]);
 }
 function lumaLine(p,q) {
 	var pixels = bresenrahm({"x":p.x,"y":p.y},{"x":q.x,"y":q.y});
@@ -125,9 +130,9 @@ function fillLine(p,q){
 	}
 }
 function whitePixel(x,y) {
-	pctx.fillStyle= "rgba(255, 255, 255, "+opacity+")";
+	pctx.fillStyle= `rgba(${Math.abs(stringColor[0]-255)}, ${Math.abs(stringColor[1]-255)}, ${Math.abs(stringColor[2]-255)}, ${opacity})`;
 	pctx.fillRect(x,y,1,1);
-	fctx.fillStyle= "rgba(0, 0, 0, "+opacity+")";
+	fctx.fillStyle= `rgba(${stringColor[0]}, ${stringColor[1]}, ${stringColor[2]}, ${opacity})`;
 	fctx.fillRect(x,y,1,1);
 }
 function resetPCTX() {
@@ -146,8 +151,6 @@ function loadJSON() {
 	}
 	document.getElementById("nails").value = jsonFile.settings.nails;
 	updateValues();
-	fctx.fillStyle= "#FFFFFF";
-	fctx.fillRect(0,0,jsonFile.settings.width,jsonFile.settings.height);
 	fctx.fillStyle= "#000000";
 	function draw(i) {
 		updateProgress(i,jsonFile.data.length);
@@ -233,8 +236,9 @@ function generate() {
 	drawBG(octx);
 	drawBG(pctx);
 	drawNails();
-	fctx.fillStyle= "#FFFFFF";
-	fctx.fillRect(0,0,image.width,image.height);
+//	fctx.fillStyle= "#FFFFFF";
+//	fctx.fillRect(0,0,image.width,image.height);
+	fc.style.background=`rgb(${Math.abs(stringColor[0]-255)}, ${Math.abs(stringColor[1]-255)}, ${Math.abs(stringColor[2]-255)})`;
 }
 
 function addInstruction(p,q) {
@@ -255,17 +259,6 @@ function addInstruction(p,q) {
 }
 
 // helper function
-function slope(p,q) {
-	var rise = q[0]-p[0];
-	var run = q[1]-p[1];
-	return rise/run;
-}
-function toDegrees (angle) {
-  return angle * (180 / Math.PI);
-}
-function toRadians (angle) {
-  return angle * (Math.PI / 180);
-}
 function toLuma(r,g,b) {
 	return Math.sqrt( 0.299*Math.pow(r,2) + 0.587*Math.pow(g,2) + 0.114*Math.pow(b,2) );
 }
@@ -318,3 +311,9 @@ function download(data, filename, type) {
         }, 0);
     }
 }
+
+const hexToRgb = hex =>
+  hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+             ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+    .substring(1).match(/.{2}/g)
+    .map(x => parseInt(x, 16))

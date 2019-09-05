@@ -31,6 +31,12 @@
 					<td><input type="number" id="transparency" value="0.3"></td>
 				</tr>
 				<tr>
+					<td>string color</td>
+					<td>
+						<input type="color" id="stringColor" value="#000000">
+					</td>
+				</tr>
+				<tr>
 					<td>starting nail</td>
 					<td><input type="number" id="startingNail" value="0"></td>
 				</tr>
@@ -70,6 +76,15 @@
 		</div>
 		<div id="processing">
 			<h2>Processing</h2>
+			<div id="instructions">
+				<ol>
+					<li>click: "pick file", right to "image:"</li>
+					<li>click: "generate"</li>
+					<li>click: "paused"</li>
+					<li>wait... the first strings can take a few minutes</li>
+					<li>after around 10 strings the process will be much quicker</li>
+				</ol>
+			</div>
 			<span class="progressStuff">progress: <progress id="progressBar"value="0" max="1"></progress> <span id="progress">0/0</span></span><br>
 			<canvas id="original_canvas" width="300" height="300"></canvas>
 			<canvas id="processing_canvas" width="300" height="300"></canvas>

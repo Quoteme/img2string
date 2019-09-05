@@ -1,28 +1,21 @@
-# img2string
-
 ## TRY IT OUT!
-[online version](http://htmlpreview.github.io/?https://github.com/Quoteme/img2string/master/index.html)
+[online version](https://quoteme.github.io/img2string/)
 
 ### Introduction
 This project has been a collaborative work to recreate the algorythm used by Petros Vrellis in his recreation of
 El Greco's Jesus:
 
-![image of El Grecos "Jesus" remade](http://cdn.trendhunterstatic.com/thumbs/petros-vrellis.jpeg "El Grecos 'Jesus' remade")
+![image of El Grecos "Jesus" remade](http://cdn.trendhunterstatic.com/thumbs/petros-vrellis.jpeg)
 
 ## Showcase
-The new updated UI:
-![showcase of the new UI](https://i.imgur.com/dBf3sO3.png "Showcase of the new UI")
-This is a showcase of how the program works with a relatively small amount of nails (80) with a picture of me.
-![showcase of how the program works](https://i.imgur.com/IZCMClp.gif "Showcase of how the program works")
-another example with black on white output not white on black
-![showcase of an image generating](https://i.imgur.com/enGwauH.gif "showcase of an image generating")
+![showcase of an image generating](https://i.imgur.com/aWTwf9N.gif)
+![showcase of the new UI](https://i.imgur.com/dBf3sO3.png)
 
 ## Notes
-It is vital that you know that this program can cause overheating in some computers.
-In this case, lower the number of nails used by the program, or press the "stop/continue" button
-from time to time, to let your computer cool down again.
+May cause overheating.
+Reduce risk by lowering the number of nails used.
+First ~5 strings might take a couple of minutes to calculate.
 
-The program might be very slow for the first few nails. After some time it will gain speed.
 
 ## Credit
 * for first making this project: [Petros Vrellis](http://artof01.com/vrellis/index.html);
@@ -31,4 +24,4 @@ The program might be very slow for the first few nails. After some time it will 
 * programming: Luca Leon Happel
 
 
-	created: 28.12.2017 last updated: 18.05.2018
+	created: 28.12.2017 last updated: 05.09.2019
