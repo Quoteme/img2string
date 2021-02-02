@@ -15,7 +15,7 @@ El Greco's Jesus:
 May cause overheating.
 Reduce risk by lowering the number of nails used.
 First ~5 strings might take a couple of minutes to calculate.
-
+A small example sketch on how to calculate the distance between nails for 160 nails is [here](https://drive.google.com/file/d/18TaQ2PdBETvY7pXxIqgkbc5qdyMHizVC/view?usp=sharing). The program sets the first nail (nail 0) at the rightmost point, as seen in the image above.
 
 ## Credit
 * for first making this project: [Petros Vrellis](http://artof01.com/vrellis/index.html);
